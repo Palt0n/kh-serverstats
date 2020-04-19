@@ -18,7 +18,7 @@ python -m pip install --upgrade pip
 ```
 Install required libraries
 ```
-pip install venv
+pip install virtualenv
 ```
 
 ## Setup
@@ -50,21 +50,26 @@ which python
 - This command should return the path for python.
 - This path should be located in the local env folder
 
-To exit venv, use
+If you want to exit venv later (DONT EXIT NOW!), use
 ```
 deactivate
 ```
 ### Download external python libraries
-Ensure that venv is activated
+Have to repeat the pip upgrade in venv
+```
+python -m pip install --upgrade pip
+```
+
+Ensure that venv is activated, then install the libararies using pip
+```
+pip install -r requirements.txt
+```
+Or run 
 ```
 pip install statsd
 pip install psutil
 pip install wmi
 pip install pypiwin32
-```
-Or run 
-```
-pip install requirements.txt
 ```
 
 ## Enviroment Variables
@@ -91,8 +96,15 @@ set PARENT_CPU=//amdcpu/0
 set PARENT_GPU=//atigpu/0
 set COMPUTER_NAME=desktop_erwin
 ```
-
-
+## Run
+```
+python send_statsd.py
+```
+If got error
+```
+wmi.x_wmi: <x_wmi: Unexpected COM Error (XXXXXXX), None, None>
+```
+It means you didn't install/run OpenHardwareMonitor yet
 ## Developer Misc
 ### Create requirements.txt file
 ```
