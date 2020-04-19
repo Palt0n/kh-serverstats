@@ -5,6 +5,7 @@ Before running, remember to:
 """
 import wmi
 import json
+import time
 
 def get_pc(PARENT_CPU,PARENT_GPU):
    return ClassPC(PARENT_CPU, PARENT_GPU)
@@ -96,6 +97,7 @@ class ClassPC:
       for location, value in list_data:
          statsd_client.gauge(location, value)
          print("{}:{}".format(location, value))
+         time.sleep(0.5)
 
 class ClassComponent:
    def __init__(self, name, sensor_power, sensor_temperature, sensor_load, sensor_used, sensor_available):
