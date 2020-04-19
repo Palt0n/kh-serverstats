@@ -1,0 +1,1 @@
+cd C:\path\to\workspace && env\Scripts\activate.bat && python send_statsd.py && deactivate
