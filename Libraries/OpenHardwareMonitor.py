@@ -35,13 +35,29 @@ class ClassPC:
       # Print to debug
       # print("SENSORS: {}".format(json.dumps(dict_sensor_json)))
 
-      if PARENT_CPU not in dict_sensor_json or PARENT_GPU not in dict_sensor_json:
-         raise ValueError("Either $PARENT_CPU=\"{}\" or $PARENT_GPU=\"{}\" is not found in \"{}\"!".format(PARENT_CPU, PARENT_GPU, json.dumps(list(dict_sensor_json.keys()))))
+      if PARENT_CPU not in dict_sensor_json:
+         raise ValueError("$PARENT_CPU=\"{}\" is not found in \"{}\"!".format(PARENT_CPU, json.dumps(list(dict_sensor_json.keys()))))
+      if PARENT_GPU is not None and PARENT_GPU not in dict_sensor_json:
+         raise ValueError("$PARENT_GPU=\"{}\" is not found in \"{}\"!".format(PARENT_GPU, json.dumps(list(dict_sensor_json.keys()))))
       
       cpu_sensor = dict_sensor[PARENT_CPU]
-      gpu_sensor = dict_sensor[PARENT_GPU]
       ram_sensor = dict_sensor["/ram"]
       # hdd_sensor = dict_sensor["/hdd/0"]
+      # If GPU is None, create pseudo gpu sensor with values all 0
+      if PARENT_GPU is not None:
+         gpu_sensor = dict_sensor[PARENT_GPU]
+      else:
+         gpu_sensor = {
+            "Power": {
+               "GPU Total": ClassSensor("GPU Total", None, "Power", 0)
+            },
+            "Temperature": {
+               "GPU Core": ClassSensor("GPU Core", None, "Temperature", 0)
+            },
+            "Load": {
+               "GPU Core": ClassSensor("GPU Core", None, "Load", 0)
+            },
+         }
 
       # assert dict_sensor[sensor.Name]
       self.cpu = ClassComponent.from_Sensors('CPU', cpu_sensor)
