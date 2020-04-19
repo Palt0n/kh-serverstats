@@ -28,8 +28,7 @@ from datetime import datetime
 def main():
     # Print Current Time
     now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    print("Current Time =", current_time)
+    print(str(now))
 
     # Get and Check enviroment variables
     SERVER_IP  = os.environ['SERVER_IP' ]
