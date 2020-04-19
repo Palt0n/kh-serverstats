@@ -79,18 +79,23 @@ class ClassPC:
       print("RAM USAGE: {0:.2f}/{1:.2f} GB"      .format(self.ram.get_memory_used(), self.ram.get_memory_used() + self.ram.get_memory_available()))
 
    def send_status(self, COMPUTER_NAME, statsd_client):
-      # CPU Status
-      statsd_client.gauge('{}.cpu.power'.format(COMPUTER_NAME)      , self.cpu.get_power()      )
-      statsd_client.gauge('{}.cpu.temperature'.format(COMPUTER_NAME), self.cpu.get_temperature())
-      statsd_client.gauge('{}.cpu.load'.format(COMPUTER_NAME)       , self.cpu.get_load()       )
-      # GPU Status
-      statsd_client.gauge('{}.gpu.power'.format(COMPUTER_NAME)      , self.gpu.get_power()      )
-      statsd_client.gauge('{}.gpu.temperature'.format(COMPUTER_NAME), self.gpu.get_temperature())
-      statsd_client.gauge('{}.gpu.load'.format(COMPUTER_NAME)       , self.gpu.get_load()       )
-      # RAM Status
-      statsd_client.gauge('{}.ram.memory_used'.format(COMPUTER_NAME)      , self.ram.get_memory_used()      )
-      statsd_client.gauge('{}.ram.memory_available'.format(COMPUTER_NAME), self.ram.get_memory_available())
-      statsd_client.gauge('{}.ram.load'.format(COMPUTER_NAME)       , self.ram.get_load()       )
+      list_data = (
+         # CPU Status
+         ('{}.cpu.power'.format(COMPUTER_NAME)      , self.cpu.get_power()      ),
+         ('{}.cpu.temperature'.format(COMPUTER_NAME), self.cpu.get_temperature()),
+         ('{}.cpu.load'.format(COMPUTER_NAME)       , self.cpu.get_load()       ),
+         # GPU Status
+         ('{}.gpu.power'.format(COMPUTER_NAME)      , self.gpu.get_power()      ),
+         ('{}.gpu.temperature'.format(COMPUTER_NAME), self.gpu.get_temperature()),
+         ('{}.gpu.load'.format(COMPUTER_NAME)       , self.gpu.get_load()       ),
+         # RAM Status
+         ('{}.ram.memory_used'.format(COMPUTER_NAME)      , self.ram.get_memory_used()      ),
+         ('{}.ram.memory_available'.format(COMPUTER_NAME), self.ram.get_memory_available()),
+         ('{}.ram.load'.format(COMPUTER_NAME)       , self.ram.get_load()       ),
+      )
+      for location, value in list_data:
+         statsd_client.gauge(location, value)
+         print("{}:{}".format(location, value))
 
 class ClassComponent:
    def __init__(self, name, sensor_power, sensor_temperature, sensor_load, sensor_used, sensor_available):
