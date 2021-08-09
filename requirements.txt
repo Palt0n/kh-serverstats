@@ -6,7 +6,7 @@ mccabe==0.6.1
 psutil==5.7.0
 pylint==2.4.4
 pypiwin32==223
-pywin32==227
+pywin32==301
 six==1.14.0
 statsd==3.3.0
 WMI==1.4.9
